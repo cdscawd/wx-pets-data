@@ -43,14 +43,17 @@
 }
 
 .button-sp-area {
-  padding: 40px;
+  padding: 40px 40px 25px;
 }
 
+.weui-footer {
+  padding: 15px 0;
+}
 .weui-footer_fixed-bottom {
-  position: fixed;
-  bottom: .52em;
-  left: 0;
-  right: 0;
+  // position: fixed;
+  // bottom: .52em;
+  // left: 0;
+  // right: 0;
 }
 
 
