@@ -8040,17 +8040,17 @@ for (a in ChineseDistricts[86]) {
   })
 }
 
-for (b in ChineseDistricts[86][110000]) {
-  data[110000].children.push({
-    'label': data[110000][b],
-    'value': '1111',
-    'addr': b,
-    'children': []
-  })
-}
+// for (b in ChineseDistricts[86][110000]) {
+//   data[110000].children.push({
+//     'label': data[110000][b],
+//     'value': '1111',
+//     'addr': b,
+//     'children': []
+//   })
+// }
 
-// console.log(data)
-console.log(JSON.stringify(data))
+console.log(data)
+// console.log(JSON.stringify(data))
 
 
 

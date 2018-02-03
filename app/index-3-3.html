@@ -1,6 +1,6 @@
 <!-- 
   已有卡密（激活码）用户
-  没有萌宠账号的用户
+  有萌宠账号的用户
   课前信息确认
  -->
 <!doctype html>
@@ -63,21 +63,9 @@
 
   <div class="weui-cells weui-cells_form">
     <div class="weui-cell">
-      <div class="weui-cell__hd"><label class="weui-label" for="phone-number">手机号码</label></div>
+      <div class="weui-cell__hd"><label class="weui-label" for="baby-account">账号</label></div>
       <div class="weui-cell__bd">
-        <input class="weui-input" id="phone-number" type="number" pattern="[0-9]*" placeholder="请填写手机号作为您的登录账号">
-      </div>
-    </div>
-  </div>
-
-  <div class="weui-cells weui-cells_form">
-    <div class="weui-cell weui-cell_vcode">
-      <div class="weui-cell__bd">
-        <input class="weui-input" id="phone-code" type="number" pattern="[0-9]*" placeholder="请填写手机验证码">
-      </div>
-      <div class="weui-cell__ft">
-        <label class="weui-vcode-btn" for="phone-code">获取验证码</label>
-        <label class="weui-vcode-count-down">60</label>
+        <input class="weui-input" id="baby-account" type="text" placeholder="请填写您已有的巧口萌宠账号">
       </div>
     </div>
   </div>
@@ -86,16 +74,7 @@
     <div class="weui-cell">
       <div class="weui-cell__hd"><label class="weui-label" for="password">登陆密码</label></div>
       <div class="weui-cell__bd">
-        <input class="weui-input" id="password" type="password">
-      </div>
-    </div>
-  </div>
-
-  <div class="weui-cells weui-cells_form">
-    <div class="weui-cell">
-      <div class="weui-cell__hd"><label class="weui-label" for="passwordr">重复登陆密码</label></div>
-      <div class="weui-cell__bd">
-        <input class="weui-input" id="passwordr" type="password">
+        <input class="weui-input" id="password" type="password" placeholder="请输入巧口萌宠账号密码">
       </div>
     </div>
   </div>
@@ -138,36 +117,6 @@
     });
   })
 
-  // 级联picker
-  // weui.picker(ChineseDistricts, {
-  //   className: 'custom-classname',
-  //   container: 'body',
-  //   defaultValue: [0],
-  //   onChange: function (result) {
-  //     console.log(result)
-  //   },
-  //   onConfirm: function (result) {
-  //     console.log(result)
-  //   },
-  //   id: 'doubleLinePicker'
-  // });
-  
-  // 获取短信验证码 按钮
-  $('.weui-vcode-btn').on('click', function(){
-    $(this).hide()
-    $('.weui-vcode-count-down').css('display', 'inline-block')
-    var timer = setInterval(function() {
-      var count = parseInt($('.weui-vcode-count-down').text(), 10)
-      count --
-      $('.weui-vcode-count-down').text(count)
-      if(count < 0){
-        clearInterval(timer)
-        $('.weui-vcode-count-down').hide()
-        $('.weui-vcode-btn').show()
-        $('.weui-vcode-count-down').text(count_down)
-      }
-    }, 1000);
-  })
 
   // 提交按钮
   $('#save').on('click', function(){
