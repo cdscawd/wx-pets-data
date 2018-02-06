@@ -1,5 +1,79 @@
 
 // 全局
+$border_radius: 12px;
+html, body {
+  background-color: #f5ebdf;
+}
+.pannl-box {
+  padding: 15px;
+  border-radius: $border_radius;
+  background-color: #fff;
+}
+
+.tips-word {
+  margin-bottom: 15px;
+  .title {
+    color: #ef3e42;
+    font-weight: bold;
+  }
+  h3 {
+    font-weight: bold;
+    line-height: 1.8;
+  }
+}
+
+.account-type {
+  
+  .title {
+    margin: .34em 0;
+    font-weight: bold;
+    text-align: center;
+  }
+  .weui-cells {
+    display: flex;
+    margin-bottom: 0;
+
+    .weui-cell__ft {
+      padding: 0;
+      width: 100px;
+      height: 100px;
+      margin: 0 auto;
+      background-color: yellow;
+    }
+
+    .weui-cell__bd {
+      padding: 10px 0 0;
+      p {
+        margin: 0;
+        text-align: center;
+      }
+    }
+
+    &:before, &:after{
+      border: none;
+    }
+  }
+  .weui-cell {
+    display: block;
+    &:before, &:after{
+      border: none;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .page__hd {
   padding: 40px;
   text-align: center;
@@ -31,7 +105,7 @@
   text-align: left;
 }
 .entrance .weui-cells{
-  margin-bottom: 1.1764705882em;
+  // margin-bottom: 1.1764705882em;
 }
 .index-state {
   text-align: left;

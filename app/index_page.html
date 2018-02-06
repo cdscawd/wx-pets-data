@@ -1,39 +1,55 @@
-
+<!-- 
+  选择身份
+ -->
 <!doctype html>
 <html lang="zh-cn">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
-  <title>填写资料邮寄地址</title>
+  <title>选择身份</title>
   <link rel="stylesheet" href="styles/weui/weui.css">
   <link rel="stylesheet" href="styles/main.css">
 </head>
 
 <body class="container" id="container"> 
   <article class="weui-article entrance">
-    <h3>请务必详细填写您的收货地址，以便于我们为您邮寄一年课中的辅助学习资料</h3>
+
+    <div class="pannl-box tips-word">
+      <h2 class="title">亲爱的宝妈宝爸：</h2>
+      <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在开始学习前，需要您填写以下信息以便我们确认是您本人并为您开通账号和充值课程，信息保密，请放心填写。</h3>
+    </div>
+
+    <div class="pannl-box account-type">
+      <h2 class="title">您是否已有巧口萌宠账号？</h2>
+      <div class="weui-cells weui-cells_radio">
+        
+        <label class="weui-cell weui-check__label" for="x14">
+          <div class="weui-cell__ft">
+            <input type="radio" class="weui-check" name="radio1" id="x14">
+            <span class="weui-icon-checked"></span>
+          </div>
+          <div class="weui-cell__bd">
+            <p>是的，我已经有巧口萌宠账号了</p>
+          </div>
+        </label>
+
+        <label class="weui-cell weui-check__label" for="x15">
+          <div class="weui-cell__ft">
+            <input type="radio" name="radio1" class="weui-check" id="x15" checked="checked">
+            <span class="weui-icon-checked"></span>
+          </div>
+          <div class="weui-cell__bd">
+            <p>没有，我还没有巧口萌宠账号</p>
+          </div>
+        </label>
+
+      </div>
+    </div>
+
   </article>
 
-  <div class="weui-cells weui-cells_form">
-    <div class="weui-cell" id="addr-picker">
-      <div class="weui-cell__hd"><label class="weui-label">宝贝地址</label></div>
-      <div class="weui-cell__bd">
-        <p id="baby-addr">省 / 市 / 区</p>
-      </div>
-    </div>
-  </div>
-  
-  <div class="weui-cells weui-cells_form">
-    <div class="weui-cell">
-      <div class="weui-cell__bd">
-        <textarea class="weui-textarea" placeholder="请填写详细的地址" rows="3"></textarea>
-        <div class="weui-textarea-counter"><span>0</span>/200</div>
-      </div>
-    </div>
-  </div>
-
   <div class="button-sp-area">
-    <a href="javascript:;" class="weui-btn weui-btn_primary" id="save">提交</a>
+    <a href="javascript:;" class="weui-btn weui-btn_primary" id="save">确定</a>
   </div>
 
   <div class="weui-footer">
@@ -41,9 +57,9 @@
   </div>
 
 </body>
+
 <script type="text/javascript" src="./scripts/zepto.min.js"></script>
 <script type="text/javascript" src="./scripts/weui.min.js"></script>
-<script type="text/javascript" src="./scripts/ChineseDistricts.js"></script>
 <script type="text/javascript">
   var date = new Date()
   var year = date.getFullYear()
@@ -69,23 +85,6 @@
       id: 'birthday-picker'
     });
   })
-
-  // 级联picker
-  $('#addr-picker').on('click', function() {
-    weui.picker(ChineseDistricts, {
-      className: 'custom-classname',
-      container: 'body',
-      defaultValue: [0,1,1],
-      onChange: function (res) {
-        $('#baby-addr').text(res[0].label + '/' + res[1].label + '/' + res[2].label)
-      },
-      onConfirm: function (res) {
-        console.log(res)
-      },
-      id: 'doubleLinePicker'
-    });
-  })
-
   
   // 获取短信验证码 按钮
   $('.weui-vcode-btn').on('click', function(){

@@ -1,0 +1,90 @@
+
+ <!doctype html>
+ <html lang="zh-cn">
+ <head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+   <title>巧口萌宠账号登录</title>
+   <link rel="stylesheet" href="styles/weui/weui.css">
+   <link rel="stylesheet" href="styles/main.css">
+ </head>
+ 
+ <body class="container" id="container"> 
+  <article class="weui-article entrance">
+    <h3>请填写您已有的巧口萌宠账号和密码</h3>
+  </article>
+
+  <div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label" for="account">设置密码</label></div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" id="account" type="text" placeholder="请输入账号">
+      </div>
+    </div>
+  </div>
+ 
+  <div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label" for="password">确认密码</label></div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" id="password" type="password" placeholder="请输入密码">
+      </div>
+    </div>
+  </div>
+ 
+  <div class="button-sp-area">
+    <a href="javascript:;" class="weui-btn weui-btn_primary" id="save">下一步</a>
+  </div>
+
+  <div class="weui-footer">
+    <p class="weui-footer__text">Copyright © 2010-2018 Qooco</p>
+  </div>
+ 
+ </body>
+ <script type="text/javascript" src="./scripts/zepto.min.js"></script>
+ <script type="text/javascript" src="./scripts/weui.min.js"></script>
+ <script type="text/javascript">
+   var date = new Date()
+   var year = date.getFullYear()
+   var month = date.getMonth() + 1
+   var day = date.getDate()
+   var count_down = 60
+ 
+   // 宝贝生日：
+   $('#birthday-picker').on('click', function(){
+     // https://github.com/Tencent/weui.js/blob/master/docs/component/picker.md#picker
+     weui.datePicker({
+       start: '1970-01-01',
+       end: year + '-' + month + '-' + day,
+       defaultValue: [year, month, day],
+       onChange: function(res){
+         // console.log(res);
+         var data = res[0].label + res[1].label + res[2].label 
+         $('#baby-birthday').text(data)
+       },
+       onConfirm: function(res){
+         console.log(res);
+       },
+       id: 'birthday-picker'
+     });
+   })
+   
+   // 提交按钮
+   $('#save').on('click', function(){
+     var loading = weui.loading('提交中...', {
+       className: 'save'
+     });
+     setTimeout(function () {
+       loading.hide(function() {
+         console.log('`loading` has been hidden');
+       });
+       weui.toast('提交成功', {
+         duration: 1000,
+         className: 'custom-classname',
+         callback: function(){ console.log('close') }
+       });
+     }, 3000);
+   })
+   
+ </script>
+ </html>
