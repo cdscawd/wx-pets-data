@@ -1,0 +1,145 @@
+<!-- 
+  问卷H5
+ -->
+<!doctype html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+  <title>index 问卷H5</title>
+  <link rel="stylesheet" href="styles/weui/weui.css">
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+
+<body class="container" id="container"> 
+  <article class="weui-article entrance">
+    <h3>亲爱的用户：</h3>
+    <h3>在开始学习前，需要您填写以下信息以便我们确认是您本人并为您开通账号和充值课程，信息保密，请放心填写。</h3>
+    <h3>您是：</h3>
+    <div class="weui-cells weui-cells_radio">
+      <label class="weui-cell weui-check__label" for="x11">
+        <div class="weui-cell__bd">
+          <p>7天体验课用户</p>
+        </div>
+        <div class="weui-cell__ft">
+          <input type="radio" class="weui-check" name="radio1" id="x11">
+          <span class="weui-icon-checked"></span>
+        </div>
+      </label>
+      <label class="weui-cell weui-check__label" for="x12">
+        <div class="weui-cell__bd">
+          <p>网上店铺付费用户</p>
+        </div>
+        <div class="weui-cell__ft">
+          <input type="radio" name="radio1" class="weui-check" id="x12" checked="checked">
+          <span class="weui-icon-checked"></span>
+        </div>
+      </label>
+      <label class="weui-cell weui-check__label" for="x13">
+        <div class="weui-cell__bd">
+          <p>已有卡密（激活码）用户</p>
+        </div>
+        <div class="weui-cell__ft">
+          <input type="radio" name="radio1" class="weui-check" id="x13" checked="checked">
+          <span class="weui-icon-checked"></span>
+        </div>
+      </label>
+    </div>
+
+    <h3>您是否已有巧口萌宠账号？</h3>
+    <div class="weui-cells weui-cells_radio">
+      <label class="weui-cell weui-check__label" for="x14">
+        <div class="weui-cell__bd">
+          <p>是的，我已经有巧口萌宠账号了</p>
+        </div>
+        <div class="weui-cell__ft">
+          <input type="radio" class="weui-check" name="radio1" id="x14">
+          <span class="weui-icon-checked"></span>
+        </div>
+      </label>
+      <label class="weui-cell weui-check__label" for="x15">
+        <div class="weui-cell__bd">
+          <p>没有，我还没有巧口萌宠账号</p>
+        </div>
+        <div class="weui-cell__ft">
+          <input type="radio" name="radio1" class="weui-check" id="x15" checked="checked">
+          <span class="weui-icon-checked"></span>
+        </div>
+      </label>
+    </div>
+  </article>
+
+  <div class="button-sp-area">
+    <a href="javascript:;" class="weui-btn weui-btn_primary" id="save">确定</a>
+  </div>
+
+  <div class="weui-footer">
+    <p class="weui-footer__text">Copyright © 2010-2018 Qooco</p>
+  </div>
+
+</body>
+
+<script type="text/javascript" src="./scripts/zepto.min.js"></script>
+<script type="text/javascript" src="./scripts/weui.min.js"></script>
+<script type="text/javascript">
+  var date = new Date()
+  var year = date.getFullYear()
+  var month = date.getMonth() + 1
+  var day = date.getDate()
+  var count_down = 60
+
+  // 宝贝生日：
+  $('#birthday-picker').on('click', function(){
+    // https://github.com/Tencent/weui.js/blob/master/docs/component/picker.md#picker
+    weui.datePicker({
+      start: '1970-01-01',
+      end: year + '-' + month + '-' + day,
+      defaultValue: [year, month, day],
+      onChange: function(res){
+        // console.log(res);
+        var data = res[0].label + res[1].label + res[2].label 
+        $('#baby-birthday').text(data)
+      },
+      onConfirm: function(res){
+        console.log(res);
+      },
+      id: 'birthday-picker'
+    });
+  })
+  
+  // 获取短信验证码 按钮
+  $('.weui-vcode-btn').on('click', function(){
+    $(this).hide()
+    $('.weui-vcode-count-down').css('display', 'inline-block')
+    var timer = setInterval(function() {
+      var count = parseInt($('.weui-vcode-count-down').text(), 10)
+      count --
+      $('.weui-vcode-count-down').text(count)
+      if(count < 0){
+        clearInterval(timer)
+        $('.weui-vcode-count-down').hide()
+        $('.weui-vcode-btn').show()
+        $('.weui-vcode-count-down').text(count_down)
+      }
+    }, 1000);
+  })
+
+  // 提交按钮
+  $('#save').on('click', function(){
+    var loading = weui.loading('提交中...', {
+      className: 'save'
+    });
+    setTimeout(function () {
+      loading.hide(function() {
+        console.log('`loading` has been hidden');
+      });
+      weui.toast('提交成功', {
+        duration: 1000,
+        className: 'custom-classname',
+        callback: function(){ console.log('close') }
+      });
+    }, 3000);
+  })
+  
+</script>
+</html>
