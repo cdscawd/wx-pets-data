@@ -1,46 +1,30 @@
-<!-- 
-  选择身份
- -->
+
 <!doctype html>
 <html lang="zh-cn">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
-  <title>选择身份</title>
+  <title>卡密激活码</title>
   <link rel="stylesheet" href="styles/weui/weui.css">
   <link rel="stylesheet" href="styles/main.css">
 </head>
 
 <body class="container" id="container"> 
   <article class="weui-article entrance">
-    <h3>亲爱的用户：</h3>
-    <h3>在开始学习前，需要您填写以下信息以便我们确认是您本人并为您开通账号和充值课程，信息保密，请放心填写。</h3>
-
-    <h3>您是否已有巧口萌宠账号？</h3>
-    <div class="weui-cells weui-cells_radio">
-      <label class="weui-cell weui-check__label" for="x14">
-        <div class="weui-cell__bd">
-          <p>是的，我已经有巧口萌宠账号了</p>
-        </div>
-        <div class="weui-cell__ft">
-          <input type="radio" class="weui-check" name="radio1" id="x14">
-          <span class="weui-icon-checked"></span>
-        </div>
-      </label>
-      <label class="weui-cell weui-check__label" for="x15">
-        <div class="weui-cell__bd">
-          <p>没有，我还没有巧口萌宠账号</p>
-        </div>
-        <div class="weui-cell__ft">
-          <input type="radio" name="radio1" class="weui-check" id="x15" checked="checked">
-          <span class="weui-icon-checked"></span>
-        </div>
-      </label>
-    </div>
+    <h3>请填写您的课程卡密激活码，充值激活您已购买的课程</h3>
   </article>
 
+  <div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label" for="order-number">激活码</label></div>
+      <div class="weui-cell__bd">
+        <input class="weui-input" id="order-number" type="text" placeholder="请填写课程卡密激活码">
+      </div>
+    </div>
+  </div>
+
   <div class="button-sp-area">
-    <a href="javascript:;" class="weui-btn weui-btn_primary" id="save">确定</a>
+    <a href="javascript:;" class="weui-btn weui-btn_primary" id="save">下一步</a>
   </div>
 
   <div class="weui-footer">
@@ -48,9 +32,9 @@
   </div>
 
 </body>
-
 <script type="text/javascript" src="./scripts/zepto.min.js"></script>
 <script type="text/javascript" src="./scripts/weui.min.js"></script>
+<script type="text/javascript" src="./scripts/distpicker.data.js"></script>
 <script type="text/javascript">
   var date = new Date()
   var year = date.getFullYear()
@@ -76,6 +60,20 @@
       id: 'birthday-picker'
     });
   })
+
+  // 级联picker
+  // weui.picker(ChineseDistricts, {
+  //   className: 'custom-classname',
+  //   container: 'body',
+  //   defaultValue: [0],
+  //   onChange: function (result) {
+  //     console.log(result)
+  //   },
+  //   onConfirm: function (result) {
+  //     console.log(result)
+  //   },
+  //   id: 'doubleLinePicker'
+  // });
   
   // 获取短信验证码 按钮
   $('.weui-vcode-btn').on('click', function(){
