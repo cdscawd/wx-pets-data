@@ -6,11 +6,14 @@ $border_radius: 12px;
 $input_border_color: #fca41d;
 
 html, body {
+  height: 100%;
   line-height: 1.6;
   box-sizing: border-box;
   font-family: -apple-system-font, "Helvetica Neue", sans-serif;
 }
+body {
 
+}
 .weui-cells {
   &:before {
     border: none;
@@ -66,6 +69,7 @@ html, body {
 @import "global";
 @import "index_page";
 @import "submitsuccess_page";
+@import "medio";
 
 
 
