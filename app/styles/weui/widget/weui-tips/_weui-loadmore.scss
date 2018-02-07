@@ -1,10 +1,10 @@
 @import "../../base/fn";
 
 .#{$weui_ns}loadmore{
-    width: 65%;
-    margin:1.5em auto;
+    // width: 65%;
+    margin: 0 auto;
     line-height: 1.6em;
-    font-size:14px;
+    font-size:18px;
     text-align: center;
 }
 .#{$weui_ns}loadmore__tips{
@@ -14,13 +14,14 @@
 
 .#{$weui_ns}loadmore_line{
     border-top:1px solid $weuiLineColorLight;
-    margin-top:2.4em;
+    margin-top: 2em;
     .#{$weui_ns}loadmore__tips{
         position: relative;
         top:-.9em;
         padding:0 .55em;
         background-color: #FFFFFF;
-        color:$weuiTextColorGray;
+        // color:$weuiTextColorGray;
+        color: #000;
     }
 }
 .#{$weui_ns}loadmore_dot{

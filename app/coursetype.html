@@ -9,87 +9,61 @@
   <link rel="stylesheet" href="styles/main.css">
 </head>
 
-<body class="container" id="container"> 
-  <article class="weui-article entrance">
-    <h3>您要参加的课程是？</h3>
+<body class="default-bg"> 
+  <div class="section-box">
+    <article class="weui-article">
+      <p>您要参加的课程是？</p>
+    </article>
 
-    <div class="weui-cells weui-cells_radio">
-      <label class="weui-cell weui-check__label" for="x14">
-        <div class="weui-cell__bd">
-          <p>巧口萌宠七天体验课</p>
+    <div class="choice-type">
+      <div class="type-cell" id="seven-day">
+        <div class="img-box">
+          <img class="type-img" src="./images/seven-day.png">
+          <img class="choice-true" src="./images/choice-true.png">
+          <img class="choice-false" src="./images/choice-false.png" style="display:none;">
         </div>
-        <div class="weui-cell__ft">
-          <input type="radio" class="weui-check" name="radio1" id="x14">
-          <span class="weui-icon-checked"></span>
+        <p>巧口萌宠<br>七天体验课</p>
+      </div>
+      <div class="type-cell" id="one-year">
+        <div class="img-box">
+          <img class="type-img" src="./images/one-year.png">
+          <img class="choice-true" src="./images/choice-true.png" style="display:none;">
+          <img class="choice-false" src="./images/choice-false.png">
         </div>
-      </label>
-      <label class="weui-cell weui-check__label" for="x15">
-        <div class="weui-cell__bd">
-          <p>巧口萌宠一年课</p>
-        </div>
-        <div class="weui-cell__ft">
-          <input type="radio" name="radio1" class="weui-check" id="x15" checked="checked">
-          <span class="weui-icon-checked"></span>
-        </div>
-      </label>
+        <p>巧口萌宠<br>一年课</p>
+      </div>
     </div>
-  </article>
 
-  <div class="button-sp-area">
-    <a href="javascript:;" class="weui-btn weui-btn_primary" id="save">下一步</a>
+    <div class="button-sp-area pets-btn-area next-btn-area">
+      <a href="javascript:;" class="weui-btn weui-btn_primary" id="save">下一步</a>
+    </div>
   </div>
 
   <div class="weui-footer">
     <p class="weui-footer__text">Copyright © 2010-2018 Qooco</p>
   </div>
-
 </body>
 
 <script type="text/javascript" src="./scripts/zepto.min.js"></script>
 <script type="text/javascript" src="./scripts/weui.min.js"></script>
 <script type="text/javascript">
-  var date = new Date()
-  var year = date.getFullYear()
-  var month = date.getMonth() + 1
-  var day = date.getDate()
-  var count_down = 60
-
-  // 宝贝生日：
-  $('#birthday-picker').on('click', function(){
-    // https://github.com/Tencent/weui.js/blob/master/docs/component/picker.md#picker
-    weui.datePicker({
-      start: '1970-01-01',
-      end: year + '-' + month + '-' + day,
-      defaultValue: [year, month, day],
-      onChange: function(res){
-        // console.log(res);
-        var data = res[0].label + res[1].label + res[2].label 
-        $('#baby-birthday').text(data)
-      },
-      onConfirm: function(res){
-        console.log(res);
-      },
-      id: 'birthday-picker'
-    });
+  $('#seven-day').on('click', function() {
+    $(this).find('.choice-true').show()
+    $(this).find('.choice-false').hide()
+    $('#one-year').find('.choice-false').show()
+    $('#one-year').find('.choice-true').hide()
   })
+  $('#one-year').on('click', function() {
+    $(this).find('.choice-true').show()
+    $(this).find('.choice-false').hide()
+    $('#seven-day').find('.choice-false').show()
+    $('#seven-day').find('.choice-true').hide()
+  })
+
+
+
+
   
-  // 获取短信验证码 按钮
-  $('.weui-vcode-btn').on('click', function(){
-    $(this).hide()
-    $('.weui-vcode-count-down').css('display', 'inline-block')
-    var timer = setInterval(function() {
-      var count = parseInt($('.weui-vcode-count-down').text(), 10)
-      count --
-      $('.weui-vcode-count-down').text(count)
-      if(count < 0){
-        clearInterval(timer)
-        $('.weui-vcode-count-down').hide()
-        $('.weui-vcode-btn').show()
-        $('.weui-vcode-count-down').text(count_down)
-      }
-    }, 1000);
-  })
-
   // 提交按钮
   $('#save').on('click', function(){
     var loading = weui.loading('提交中...', {

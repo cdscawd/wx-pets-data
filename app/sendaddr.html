@@ -9,31 +9,37 @@
   <link rel="stylesheet" href="styles/main.css">
 </head>
 
-<body class="container" id="container"> 
-  <article class="weui-article entrance">
-    <h3>请务必详细填写您的收货地址，以便于我们为您邮寄一年课中的辅助学习资料</h3>
-  </article>
+<body class="default-bg"> 
+  <div class="section-box">
+    <article class="weui-article">
+      <p>请务必详细填写您的收货地址，以便于<br>我们为您邮寄一年课中的辅助学习资料</p>
+    </article>
 
-  <div class="weui-cells weui-cells_form">
-    <div class="weui-cell" id="addr-picker">
-      <div class="weui-cell__hd"><label class="weui-label">宝贝地址</label></div>
-      <div class="weui-cell__bd">
-        <p id="baby-addr">省 / 市 / 区</p>
+    <div class="weui-cells weui-cells_form addr-picker" id="addr-picker">
+      <div class="weui-cell input-border">
+        <div class="weui-cell__bd">
+          <p id="baby-addr">所在省 <i></i></p>
+        </div>
+      </div>
+      <div class="weui-cell input-border">
+        <div class="weui-cell__bd">
+          <p id="baby-addr">所在市<i></i></p>
+        </div>
+      </div>
+      <div class="weui-cell input-border">
+        <div class="weui-cell__bd">
+          <p id="baby-addr">所在区<i></i></p>
+        </div>
       </div>
     </div>
-  </div>
-  
-  <div class="weui-cells weui-cells_form">
-    <div class="weui-cell">
-      <div class="weui-cell__bd">
-        <textarea class="weui-textarea" placeholder="请填写详细的地址" rows="3"></textarea>
-        <div class="weui-textarea-counter"><span>0</span>/200</div>
-      </div>
+    
+    <div class="weui-cells weui-cells_form">
+      <textarea class="weui-textarea" placeholder="请填写详细的地址" rows="4"></textarea>
     </div>
-  </div>
 
-  <div class="button-sp-area">
-    <a href="javascript:;" class="weui-btn weui-btn_primary" id="save">提交</a>
+    <div class="button-sp-area pets-btn-area next-btn-area">
+      <a href="javascript:;" class="weui-btn weui-btn_primary" id="save">下一步</a>
+    </div>
   </div>
 
   <div class="weui-footer">
@@ -77,7 +83,7 @@
       container: 'body',
       defaultValue: [0,1,1],
       onChange: function (res) {
-        $('#baby-addr').text(res[0].label + '/' + res[1].label + '/' + res[2].label)
+        // $('#baby-addr').text(res[0].label + '/' + res[1].label + '/' + res[2].label)
       },
       onConfirm: function (res) {
         console.log(res)

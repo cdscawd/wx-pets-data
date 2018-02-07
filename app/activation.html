@@ -9,22 +9,21 @@
   <link rel="stylesheet" href="styles/main.css">
 </head>
 
-<body class="container" id="container"> 
-  <article class="weui-article entrance">
-    <h3>请填写您的课程卡密激活码，充值激活您已购买的课程</h3>
-  </article>
+<body class="default-bg"> 
+  <div class="section-box">
+    <article class="weui-article">
+      <p>填写您的课程卡密激活码，充值激活<br>您购买的课程</p>
+    </article>
 
-  <div class="weui-cells weui-cells_form">
-    <div class="weui-cell">
-      <div class="weui-cell__hd"><label class="weui-label" for="order-number">激活码</label></div>
-      <div class="weui-cell__bd">
-        <input class="weui-input" id="order-number" type="text" placeholder="请填写课程卡密激活码">
+    <div class="weui-cells weui-cells_form">
+      <div class="weui-cell input-border">
+        <input class="weui-input" id="" type="text" placeholder="请填写课程卡密激活码">
       </div>
     </div>
-  </div>
 
-  <div class="button-sp-area">
-    <a href="javascript:;" class="weui-btn weui-btn_primary" id="save">下一步</a>
+    <div class="button-sp-area pets-btn-area next-btn-area">
+      <a href="javascript:;" class="weui-btn weui-btn_primary" id="save">下一步</a>
+    </div>
   </div>
 
   <div class="weui-footer">
@@ -34,7 +33,6 @@
 </body>
 <script type="text/javascript" src="./scripts/zepto.min.js"></script>
 <script type="text/javascript" src="./scripts/weui.min.js"></script>
-<script type="text/javascript" src="./scripts/distpicker.data.js"></script>
 <script type="text/javascript">
   var date = new Date()
   var year = date.getFullYear()

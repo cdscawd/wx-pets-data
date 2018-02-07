@@ -1,0 +1,110 @@
+
+// 全局
+$border_radius: 12px;
+
+.index_page {
+  background-color: #f5ebdf;
+  .banner {
+    img {
+      width: 100%;
+    }
+  }
+
+  .entrance {
+    padding-top: 0;
+    position: relative;
+    top:  -30px;
+    text-align: left;
+  }
+  
+  .pannl-box {
+    padding: 15px;
+    border-radius: $border_radius;
+    background-color: #fff;
+  }
+  
+  .tips-word {
+    margin-bottom: 15px;
+    .title {
+      color: #ef3e42;
+      font-weight: bold;
+    }
+    h3 {
+      font-weight: bold;
+      line-height: 1.8;
+    }
+  }
+  
+  .account-box {
+    padding: 15px;
+    border-radius: $border_radius;
+    background-color: #fff;
+
+    .title {}
+    .account-type {
+      display: flex;
+
+      .type-cell {
+        flex: 1;
+        padding: .8em;
+    
+        .img-box {
+          position: relative;
+          .type-img {
+            display: block;
+            width: 100px;
+            max-width: 120px;
+            margin: 0 auto 1em;
+          }
+    
+          .choice-true, .choice-false {
+            width: 2.2em;
+            height: 2.2em;
+            position: absolute;
+            right: 20px;
+            top: 0;
+          } 
+        }
+        p {
+          text-align: center;
+        }
+      }
+
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
