@@ -60,7 +60,7 @@
   // 获取短信验证码 按钮
   $('#weui-vcode-btn').on('click', function(){
     var phone_number = $('#phone-number').val()
-    ERRPrompt('PHONE_NUMBER', phone_number )
+    ERRPrompt('PHONE_NUMBER_ERROR', phone_number )
     if ( isPoneAvailable( phone_number ) ) {
       $(this).hide()
       $('#count-down').css('display', 'inline-block')

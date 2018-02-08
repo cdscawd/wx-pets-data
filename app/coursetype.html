@@ -47,38 +47,40 @@
 <script type="text/javascript" src="./scripts/zepto.min.js"></script>
 <script type="text/javascript" src="./scripts/weui.min.js"></script>
 <script type="text/javascript">
+  /**
+  * 账号状态
+  * @null = 用户为选择
+  * @false = 没有 我还没有巧口萌宠账号
+  * @true = 是的 我已经有巧口萌宠账号了
+  */
+  var COURSE_STATUS = null
+
   $('#seven-day').on('click', function() {
+    COURSE_STATUS = 'SEVEN'
     $(this).find('.choice-true').show()
     $(this).find('.choice-false').hide()
     $('#one-year').find('.choice-false').show()
     $('#one-year').find('.choice-true').hide()
   })
   $('#one-year').on('click', function() {
+    COURSE_STATUS = 'YEAR'
     $(this).find('.choice-true').show()
     $(this).find('.choice-false').hide()
     $('#seven-day').find('.choice-false').show()
     $('#seven-day').find('.choice-true').hide()
   })
 
-
-
-
   
   // 提交按钮
   $('#save').on('click', function(){
-    var loading = weui.loading('提交中...', {
-      className: 'save'
-    });
-    setTimeout(function () {
-      loading.hide(function() {
-        console.log('`loading` has been hidden');
-      });
-      weui.toast('提交成功', {
-        duration: 1000,
-        className: 'custom-classname',
-        callback: function(){ console.log('close') }
-      });
-    }, 3000);
+    console.log(COURSE_STATUS)
+    if (COURSE_STATUS == null) {
+      weui.confirm('请选择课程类型');
+    } else if (COURSE_STATUS == 'SEVEN') {
+      location.href = '/submitsuccess.html'
+    } else if (COURSE_STATUS == 'YEAR')  {
+      location.href = '/activation.html'
+    }
   })
   
 </script>

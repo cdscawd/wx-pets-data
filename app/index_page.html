@@ -98,30 +98,14 @@
 
   // 提交按钮
   $('#save').on('click', function(){
-    switch (ACCOUNT_STATUS) {
-      case null:
-        weui.confirm('请选择您是否已有巧口账号！');
-        break;
-      case false:
-        weui.confirm('没有 我还没有巧口萌宠账号 registeraccount.html');
-      case true:
-        weui.confirm('是的 我已经有巧口萌宠账号了 login.html');
-      default:
-        break;
+    console.log(ACCOUNT_STATUS)
+    if (ACCOUNT_STATUS == null) {
+      weui.confirm('请选择您是否已有巧口账号！');
+    } else if (ACCOUNT_STATUS == false) {
+      location.href = '/registeraccount.html'
+    } else {
+      location.href = '/login.html'
     }
-    // var loading = weui.loading('提交中...', {
-    //   className: 'save'
-    // });
-    // setTimeout(function () {
-    //   loading.hide(function() {
-    //     console.log('`loading` has been hidden');
-    //   });
-    //   weui.toast('提交成功', {
-    //     duration: 1000,
-    //     className: 'custom-classname',
-    //     callback: function(){ console.log('close') }
-    //   });
-    // }, 3000);
   })
   
 </script>
