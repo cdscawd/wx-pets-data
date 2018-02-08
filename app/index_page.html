@@ -19,8 +19,9 @@
 
   <article class="weui-article entrance">
     <div class="pannl-box tips-word">
+      <img src="./images/text-over.png">
       <h2 class="title">亲爱的宝妈宝爸：</h2>
-      <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在开始学习前，需要您填写以下信息以便我们确认是您本人并为您开通账号和充值课程，信息保密，请放心填写。</h3>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在开始学习前，需要您填写以下信息以便我们确认是您本人并为您开通账号和充值课程，信息保密，请放心填写。</p>
     </div>
 
     <div class="account-box">
@@ -63,7 +64,17 @@
 <script type="text/javascript" src="./scripts/zepto.min.js"></script>
 <script type="text/javascript" src="./scripts/weui.min.js"></script>
 <script type="text/javascript">
+  /**
+  * 账号状态
+  * @null = 用户为选择
+  * @false = 没有 我还没有巧口萌宠账号
+  * @true = 是的 我已经有巧口萌宠账号了
+  */
+  var ACCOUNT_STATUS = null
+
+
   $('#have-account').on('click', function() {
+    ACCOUNT_STATUS = true
     $(this).find('.choice-false').hide()
     $(this).find('.choice-true').show()
     $(this).find('.choice-logo-false').hide()
@@ -74,6 +85,7 @@
     $('#not-account').find('.choice-logo-false').show()
   })
   $('#not-account').on('click', function() {
+    ACCOUNT_STATUS = false
     $(this).find('.choice-false').hide()
     $(this).find('.choice-true').show()
     $(this).find('.choice-logo-false').hide()
@@ -86,19 +98,30 @@
 
   // 提交按钮
   $('#save').on('click', function(){
-    var loading = weui.loading('提交中...', {
-      className: 'save'
-    });
-    setTimeout(function () {
-      loading.hide(function() {
-        console.log('`loading` has been hidden');
-      });
-      weui.toast('提交成功', {
-        duration: 1000,
-        className: 'custom-classname',
-        callback: function(){ console.log('close') }
-      });
-    }, 3000);
+    switch (ACCOUNT_STATUS) {
+      case null:
+        weui.confirm('请选择您是否已有巧口账号！');
+        break;
+      case false:
+        weui.confirm('没有 我还没有巧口萌宠账号 registeraccount.html');
+      case true:
+        weui.confirm('是的 我已经有巧口萌宠账号了 login.html');
+      default:
+        break;
+    }
+    // var loading = weui.loading('提交中...', {
+    //   className: 'save'
+    // });
+    // setTimeout(function () {
+    //   loading.hide(function() {
+    //     console.log('`loading` has been hidden');
+    //   });
+    //   weui.toast('提交成功', {
+    //     duration: 1000,
+    //     className: 'custom-classname',
+    //     callback: function(){ console.log('close') }
+    //   });
+    // }, 3000);
   })
   
 </script>

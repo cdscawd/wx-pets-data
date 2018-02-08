@@ -7,7 +7,7 @@ $input_border_color: #fca41d;
 
 
 .default-bg {
-  padding: 2em 1em;
+  padding: 2em 1em 0;
   background: url('./../images/talking_pets_bg.jpg') repeat 0 0;
   background-size: cover;
   background-attachment: fixed;
@@ -15,6 +15,7 @@ $input_border_color: #fca41d;
 
 .section-box {
   padding: 2em 2em 8em;
+  margin-bottom: 3.2em;
   background-color: #fff;
   border-radius: $border_radius;
 
@@ -33,22 +34,24 @@ $input_border_color: #fca41d;
   display: flex;
 
   .input-code {
-    width: 36%;
+    width: 38%
   }
   .code-btn {
-    width: 54%;
+    width: 52%;
   }
-  .weui-vcode-btn {
+  .weui-vcode-btn,
+  .weui-vcode-count-down {
     padding: 0;
-    width: 92%;
+    width: 88%;
     text-align: center;
     margin-left: .7em;
     color: #fff;
     background-color: #fca41d;
   }
+  
 }
 .pets-btn-area {
-  padding: 15px 60px 0;
+  padding: 1.2em 4em 0;
   .weui-btn {
     line-height: 2.8em;
     border-radius: 1.4em;
@@ -121,7 +124,10 @@ $input_border_color: #fca41d;
   border: 1px solid $input_border_color;
 }
 
-
+.err-prompt {
+  color: red;
+  font-size: 14px;
+}
 
 
 

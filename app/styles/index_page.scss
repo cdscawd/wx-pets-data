@@ -25,6 +25,7 @@ $border_radius: 12px;
   
   .tips-word {
     margin-bottom: 10px;
+    position: relative;
     .title {
       color: #ef3e42;
       font-weight: bold;
@@ -34,6 +35,16 @@ $border_radius: 12px;
       line-height: 1.8;
       margin-bottom: 0;
     }
+    p {
+      margin-bottom: 0;
+    }
+    img {
+      width: 80px;
+      height: 40px;
+      position: absolute;
+      left: 24px;
+      top: -30px;
+    }
   }
   
   .account-box {
@@ -41,13 +52,16 @@ $border_radius: 12px;
     border-radius: $border_radius;
     background-color: #fff;
 
-    .title {}
+    .title {
+      margin-bottom: 0;
+      text-align: center;
+    }
     .account-type {
       display: flex;
 
       .type-cell {
         flex: 1;
-        padding: .8em;
+        padding: .8em .8em 0;
     
         .img-box {
           width: 100px;
@@ -57,7 +71,7 @@ $border_radius: 12px;
             display: block;
             width: 100px;
             max-width: 120px;
-            margin: 0 auto 1em;
+            margin: 0 auto .6em;
           }
     
           .choice-true, .choice-false {
@@ -70,6 +84,7 @@ $border_radius: 12px;
         }
         p {
           text-align: center;
+          margin-bottom: 0;
         }
       }
 
