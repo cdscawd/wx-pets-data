@@ -25,6 +25,7 @@
     <div class="weui-cells weui-cells_form">
       <div class="weui-cell input-border" id="birthday-picker">
         <div class="weui-cell__bd">
+          <!-- <input class="weui-input" id="baby-birthday" type="text" placeholder="宝贝生日"> -->
           <p id="baby-birthday">宝贝生日</p>
         </div>
       </div>
@@ -41,23 +42,45 @@
 </body>
 <script type="text/javascript" src="./scripts/zepto.min.js"></script>
 <script type="text/javascript" src="./scripts/weui.min.js"></script>
+<script type="text/javascript" src="./scripts/main.js"></script>
 <script type="text/javascript">
   var date = new Date()
   var year = date.getFullYear()
   var month = date.getMonth() + 1
   var day = date.getDate()
   var count_down = 60
+  var baby_name = ''
+  var baby_brithday = ''
+  var userId = sessionStorage.getItem('userId')
+
+  $('#baby-name').on('blur', function() {
+    baby_name = $.trim($(this).val())
+    if ( baby_name.length === 0 ) {
+      ERRPrompt('Baby_Name_Empty', '')
+    }
+  })
+
+  $('#baby-name, #baby-birthday').on('focus', function() {
+    $(this).parents('.weui-cells').find('.err-prompt').remove()
+  })
+  $('#baby-birthday').on('click', function() {
+    $(this).parents('.weui-cells').find('.err-prompt').remove()
+  })
 
   // 宝贝生日：
   $('#birthday-picker').on('click', function(){
-    // https://github.com/Tencent/weui.js/blob/master/docs/component/picker.md#picker
     weui.datePicker({
       start: '1970-01-01',
       end: year + '-' + month + '-' + day,
-      defaultValue: [year, month, day],
+      defaultValue: [year - 6, 1, 1],
       onChange: function(res){
-        // console.log(res);
-        var data = res[0].label + res[1].label + res[2].label 
+        var year = res[0].value
+        var month = String(res[1].value)
+        month = month.length == 1 ? '0' + res[1].value : res[1].value
+        var day = String(res[2].value)
+        day = day.length == 1 ? '0' + res[2].value : res[2].value
+        baby_brithday = res[0].value + '-' + month + '-' + day
+        var data = res[0].label + res[1].label + res[2].label
         $('#baby-birthday').text(data)
       },
       onConfirm: function(res){
@@ -66,40 +89,52 @@
       id: 'birthday-picker'
     });
   })
-  
-  // 获取短信验证码 按钮
-  $('.weui-vcode-btn').on('click', function(){
-    $(this).hide()
-    $('.weui-vcode-count-down').css('display', 'inline-block')
-    var timer = setInterval(function() {
-      var count = parseInt($('.weui-vcode-count-down').text(), 10)
-      count --
-      $('.weui-vcode-count-down').text(count)
-      if(count < 0){
-        clearInterval(timer)
-        $('.weui-vcode-count-down').hide()
-        $('.weui-vcode-btn').show()
-        $('.weui-vcode-count-down').text(count_down)
-      }
-    }, 1000);
-  })
 
   // 提交按钮
   $('#save').on('click', function(){
-    var loading = weui.loading('提交中...', {
-      className: 'save'
-    });
-    setTimeout(function () {
-      loading.hide(function() {
-        console.log('`loading` has been hidden');
-      });
-      weui.toast('提交成功', {
-        duration: 1000,
-        className: 'custom-classname',
-        callback: function(){ console.log('close') }
-      });
-    }, 3000);
+    $('.err-prompt').remove()
+    baby_name = $.trim($('#baby-name').val())
+    !baby_name &&
+      ERRPrompt('Baby_Name_Empty', '')
+    !baby_brithday &&
+      ERRPrompt('Baby_Brithday_Empty', '')
+
+    if( baby_name && baby_brithday) {
+      sessionStorage.setItem('baby_birth', baby_brithday)
+      sessionStorage.setItem('baby_name', baby_name)
+
+      var data = {
+        addr: '',
+        baby_birth: baby_brithday,
+        baby_name: baby_name,
+        city: '',
+        province: '',
+        type: '',
+        user_id: userId
+      }
+      $.ajax({
+        type: 'POST',
+        url: IP + 'youzan-qp-web/saveUserFamilyInfo',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        success: function(res){
+          if ( res.status == 'success' ) {
+            weui.toast('设置成功', {
+              duration: 1500,
+              className: 'baby-info-success',
+              callback: function(){
+                location.href = '/coursetype.html'
+              }
+            });
+          } else {
+            weui.confirm( '用户更新失败' )
+          }
+        },
+        error: function(xhr, type){
+          weui.confirm( '网络出错!<br>请重试' )
+        }
+      })
+    }
   })
-  
 </script>
 </html>

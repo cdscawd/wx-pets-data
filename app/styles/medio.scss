@@ -12,15 +12,25 @@
 }
 
 @media (max-width: 414px) {
- 
+ .addr-picker .weui-cell p {
+  
+ }
 }
 
 @media (max-width: 375px) {
-  
+  .addr-picker .weui-cell p {
+    width: 51px;
+  }
+  .section-box {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
 }
 
 @media (max-width: 320px) {
-  
+  .addr-picker .weui-cell p {
+   width: 44px;
+  }
 }
 
 

@@ -67,6 +67,15 @@
     $(this).parents('.weui-cells').find('.err-prompt').remove()
   })
 
+  // 验证码 失去焦点
+  $('#phone-code').on('blur', function() {
+    var phone_code = $.trim($('#phone-code').val())
+    $(this).parents('.weui-cells').find('.err-prompt').remove()
+    if( phone_code.length == 0 || phone_code.length < 4 ) {
+      ERRPrompt('PHONE_CODE_ERROR', '' )
+    }
+  })
+
   // 手机号 失去焦点
   $("#phone-number").on('blur', function(){
     var blur_phone_number = $(this).val();
@@ -77,6 +86,7 @@
 
   // 获取短信验证码 按钮
   $('#weui-vcode-btn').on('click', function(){
+    $('.err-prompt').remove()
     phone_number = $('#phone-number').val()
     if ( isPoneAvailable( phone_number ) ) {
       $.get('https://open.api.qooco.com/qoocoAPI/common/getSmsCode/' + phone_number, function(res){
@@ -100,27 +110,39 @@
           weui.confirm('无法获取验证码<br>该号码当天获取验证码次数上限');
         }
       })
+    } else {
+      ERRPrompt('PHONE_NUMBER_ERROR', '' )
     }
   })
 
   // 提交按钮
   $('#save').on('click', function(){
-    var phone_code = $('#phone-code').val()
-    if (phone_code === smscode) {
-      sessionStorage.setItem("username", phone_number)
-      weui.toast('手机号注册成功', {
-        duration: 1500,
-        className: 'phone-number-success',
-        callback: function(){
-          location.href = '/registerpwd.html'
-        }
-      });
-    } else if(phone_code !== smscode) {
-      ERRPrompt( 'PHONE_CODE_ERROR', phone_number )
-    } else if (phone_code === '' || smscode === '') {
-      weui.confirm('请您获取手机验证码')
+    $('.err-prompt').remove()
+
+    var phone_number = $('#phone-number').val();
+    var phone_code = $.trim($('#phone-code').val())
+    if (smscode != '') {
+      if (phone_code === smscode) {
+        sessionStorage.setItem("username", phone_number)
+        weui.toast('手机号注册成功', {
+          duration: 1500,
+          className: 'phone-number-success',
+          callback: function(){
+            location.href = '/registerpwd.html'
+          }
+        });
+      } else if(phone_code !== smscode) {
+        ERRPrompt( 'PHONE_CODE_ERROR', phone_number )
+      } else if (phone_code === '' || smscode === '') {
+        weui.confirm('请您获取手机验证码')
+      }
+    } else {
+      ERRPrompt('PHONE_CODE_ERROR', '' )
+      if ( !isPoneAvailable( phone_number ) ) {
+        ERRPrompt('PHONE_NUMBER_ERROR', '' )
+      }
     }
   })
-  
+ 
 </script>
 </html>

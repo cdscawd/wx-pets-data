@@ -16,13 +16,13 @@
     </article>
 
     <div class="weui-cells weui-cells_form">
-      <div class="weui-cell input-border">
-        <input class="weui-input" id="" type="text" placeholder="请填写课程卡密激活码">
+      <div class="weui-cell input-border" id="activateLicense-box">
+        <input class="weui-input" id="activateLicense-code" type="text" placeholder="请填写课程卡密激活码">
       </div>
     </div>
 
     <div class="button-sp-area pets-btn-area next-btn-area">
-      <a href="javascript:;" class="weui-btn weui-btn_primary" id="save">下一步</a>
+      <a href="javascript:;" class="weui-btn weui-btn_primary" id="save">提交</a>
     </div>
   </div>
 
@@ -33,79 +33,59 @@
 </body>
 <script type="text/javascript" src="./scripts/zepto.min.js"></script>
 <script type="text/javascript" src="./scripts/weui.min.js"></script>
+<script type="text/javascript" src="./scripts/main.js"></script>
 <script type="text/javascript">
-  var date = new Date()
-  var year = date.getFullYear()
-  var month = date.getMonth() + 1
-  var day = date.getDate()
-  var count_down = 60
+  var activateLicense_code = ''
+  var userId = ''
+  var min_length = 12
+  var max_length = 20
 
-  // 宝贝生日：
-  $('#birthday-picker').on('click', function(){
-    // https://github.com/Tencent/weui.js/blob/master/docs/component/picker.md#picker
-    weui.datePicker({
-      start: '1970-01-01',
-      end: year + '-' + month + '-' + day,
-      defaultValue: [year, month, day],
-      onChange: function(res){
-        // console.log(res);
-        var data = res[0].label + res[1].label + res[2].label 
-        $('#baby-birthday').text(data)
-      },
-      onConfirm: function(res){
-        console.log(res);
-      },
-      id: 'birthday-picker'
-    });
+  $('#activateLicense-code').on('focus', function() {
+    $(this).parents('.weui-cells').find('.err-prompt').remove()
+  })
+  $('#activateLicense-code').on('blur', function() {
+    activateLicense_code = $.trim($(this).val())
+    if ( activateLicense_code.length == 0 ) {
+      ERRPrompt('Activation_Error', '')
+    }
   })
 
-  // 级联picker
-  // weui.picker(ChineseDistricts, {
-  //   className: 'custom-classname',
-  //   container: 'body',
-  //   defaultValue: [0],
-  //   onChange: function (result) {
-  //     console.log(result)
-  //   },
-  //   onConfirm: function (result) {
-  //     console.log(result)
-  //   },
-  //   id: 'doubleLinePicker'
-  // });
-  
-  // 获取短信验证码 按钮
-  $('.weui-vcode-btn').on('click', function(){
-    $(this).hide()
-    $('.weui-vcode-count-down').css('display', 'inline-block')
-    var timer = setInterval(function() {
-      var count = parseInt($('.weui-vcode-count-down').text(), 10)
-      count --
-      $('.weui-vcode-count-down').text(count)
-      if(count < 0){
-        clearInterval(timer)
-        $('.weui-vcode-count-down').hide()
-        $('.weui-vcode-btn').show()
-        $('.weui-vcode-count-down').text(count_down)
-      }
-    }, 1000);
-  })
-
-  // 提交按钮
+  // 下一步 卡密激活
   $('#save').on('click', function(){
-    var loading = weui.loading('提交中...', {
-      className: 'save'
-    });
-    setTimeout(function () {
-      loading.hide(function() {
-        console.log('`loading` has been hidden');
-      });
-      weui.toast('提交成功', {
-        duration: 1000,
-        className: 'custom-classname',
-        callback: function(){ console.log('close') }
-      });
-    }, 3000);
+    $('.err-prompt').remove()
+    userId = sessionStorage.getItem('userId')
+    activateLicense_code =  $.trim($('#activateLicense-code').val())
+    if (activateLicense_code.length != 0) {
+      var data = {
+        licenseKey: activateLicense_code,
+        userId: userId
+      }
+      $.ajax({
+        type: 'POST',
+        url: IP + 'youzan-qp-web/activateLicense',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        success: function(res){
+          if ( res.status == 'success' ) {
+            weui.toast('卡密激活成功', {
+              duration: 1500,
+              className: 'activateLicense-code-success',
+              callback: function(){
+                location.href = '/sendaddr.html'
+              }
+            });
+          } else {
+            ERRPrompt('Activation_Error', '')
+          }
+        },
+        error: function(xhr, type){
+          weui.confirm( '网络出错!<br>请重试' )
+        }
+      })
+    } else {
+      console.log(activateLicense_code.length)
+      ERRPrompt('Activation_Error', '')
+    }
   })
-  
 </script>
 </html>

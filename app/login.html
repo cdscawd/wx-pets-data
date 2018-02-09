@@ -16,13 +16,13 @@
     </article>
 
     <div class="weui-cells weui-cells_form">
-      <div class="weui-cell input-border">
-        <input class="weui-input" id="phone-number" type="number" pattern="[0-9]*" placeholder="请输入账号">
+      <div class="weui-cell input-border" id="account-number-box">
+        <input class="weui-input" id="account-number" type="text" placeholder="请输入账号">
       </div>
     </div>
   
     <div class="weui-cells weui-cells_form">
-      <div class="weui-cell input-border">
+      <div class="weui-cell input-border" id="password-box">
         <input class="weui-input" id="password" type="password" placeholder="请输入密码">
       </div>
     </div>
@@ -35,51 +35,72 @@
     <p class="weui-footer__text">Copyright © 2010-2018 Qooco</p>
   </div>
  
- </body>
- <script type="text/javascript" src="./scripts/zepto.min.js"></script>
- <script type="text/javascript" src="./scripts/weui.min.js"></script>
- <script type="text/javascript">
-   var date = new Date()
-   var year = date.getFullYear()
-   var month = date.getMonth() + 1
-   var day = date.getDate()
-   var count_down = 60
- 
-   // 宝贝生日：
-   $('#birthday-picker').on('click', function(){
-     // https://github.com/Tencent/weui.js/blob/master/docs/component/picker.md#picker
-     weui.datePicker({
-       start: '1970-01-01',
-       end: year + '-' + month + '-' + day,
-       defaultValue: [year, month, day],
-       onChange: function(res){
-         // console.log(res);
-         var data = res[0].label + res[1].label + res[2].label 
-         $('#baby-birthday').text(data)
-       },
-       onConfirm: function(res){
-         console.log(res);
-       },
-       id: 'birthday-picker'
-     });
-   })
-   
-   // 提交按钮
-   $('#save').on('click', function(){
-     var loading = weui.loading('提交中...', {
-       className: 'save'
-     });
-     setTimeout(function () {
-       loading.hide(function() {
-         console.log('`loading` has been hidden');
-       });
-       weui.toast('提交成功', {
-         duration: 1000,
-         className: 'custom-classname',
-         callback: function(){ console.log('close') }
-       });
-     }, 3000);
-   })
-   
- </script>
+</body>
+<script type="text/javascript" src="./scripts/zepto.min.js"></script>
+<script type="text/javascript" src="./scripts/weui.min.js"></script>
+<script type="text/javascript" src="./scripts/main.js"></script>
+<script type="text/javascript">
+  var account_number = ''
+  var password = ''
+  $('#account-number, #password').on('focus', function() {
+    $(this).parents('.weui-cells').find('.err-prompt').remove()
+  })
+
+  $('#account-number').on('blur', function() {
+    account_number = $.trim($(this).val())
+    if ( account_number.length === 0 ) {
+      ERRPrompt('Account_Empty', '')
+    }
+  })
+
+  $('#password').on('blur', function() {
+    password = $.trim($(this).val())
+    if ( password.length === 0 ) {
+      ERRPrompt('Account_Password_Empty', '')
+    }
+  })
+
+  // 下一步   登陆
+  $('#save').on('click', function(){
+    $('.err-prompt').remove()
+    account_number = $.trim($('#account-number').val())
+    password = $.trim($('#password').val())
+    !account_number &&
+      ERRPrompt('Account_Empty', '')
+    !password &&
+      ERRPrompt('Account_Password_Empty', '')
+    if( account_number && password) {
+      var data = {
+        username: account_number,
+        password: password
+      }
+
+      $.post(IP + 'youzan-qp-web/validate-account?username=' + account_number + '&password=' + password, function(res) {
+        console.log(res)
+        // Gatsby.曹影.RD 123456
+        if ( res.status === 'success' ) {
+          console.log(res)
+          sessionStorage.setItem('userId', res.data.userid)
+          weui.toast('登陆成功', {
+            duration: 1500,
+            className: 'phone-number-success',
+            callback: function(){
+              // SIMON.陈思铭.RD  redhat
+              if (res.data.phone === '') {
+                location.href = '/bindaccount.html'
+              } else {
+                location.href = '/babyinfo.html'
+              }
+            }
+          });
+        } else {
+          ERRPrompt('Account_Error', '')
+        }
+      })
+    } else {
+
+    }
+  }) 
+  
+</script>
  </html>

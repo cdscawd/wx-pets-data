@@ -18,27 +18,27 @@
     <div class="weui-cells weui-cells_form addr-picker" id="addr-picker">
       <div class="weui-cell input-border">
         <div class="weui-cell__bd">
-          <p id="baby-addr">所在省 <i></i></p>
+          <p id="province">所在省 <i></i></p>
         </div>
       </div>
       <div class="weui-cell input-border">
         <div class="weui-cell__bd">
-          <p id="baby-addr">所在市<i></i></p>
+          <p id="city">所在市<i></i></p>
         </div>
       </div>
       <div class="weui-cell input-border">
         <div class="weui-cell__bd">
-          <p id="baby-addr">所在区<i></i></p>
+          <p id="district">所在区<i></i></p>
         </div>
       </div>
     </div>
     
     <div class="weui-cells weui-cells_form">
-      <textarea class="weui-textarea" placeholder="请填写详细的地址" rows="4"></textarea>
+      <textarea class="weui-textarea" id="address-info" placeholder="请填写详细的地址" rows="4"></textarea>
     </div>
 
     <div class="button-sp-area pets-btn-area next-btn-area">
-      <a href="javascript:;" class="weui-btn weui-btn_primary" id="save">下一步</a>
+      <a href="javascript:;" class="weui-btn weui-btn_primary" id="save">提交</a>
     </div>
   </div>
 
@@ -49,82 +49,103 @@
 </body>
 <script type="text/javascript" src="./scripts/zepto.min.js"></script>
 <script type="text/javascript" src="./scripts/weui.min.js"></script>
+<script type="text/javascript" src="./scripts/main.js"></script>
 <script type="text/javascript" src="./scripts/ChineseDistricts.js"></script>
 <script type="text/javascript">
-  var date = new Date()
-  var year = date.getFullYear()
-  var month = date.getMonth() + 1
-  var day = date.getDate()
-  var count_down = 60
-
-  // 宝贝生日：
-  $('#birthday-picker').on('click', function(){
-    // https://github.com/Tencent/weui.js/blob/master/docs/component/picker.md#picker
-    weui.datePicker({
-      start: '1970-01-01',
-      end: year + '-' + month + '-' + day,
-      defaultValue: [year, month, day],
-      onChange: function(res){
-        // console.log(res);
-        var data = res[0].label + res[1].label + res[2].label 
-        $('#baby-birthday').text(data)
-      },
-      onConfirm: function(res){
-        console.log(res);
-      },
-      id: 'birthday-picker'
-    });
-  })
+  var baby_birth = ''
+  var baby_name = ''
+  var province = ''
+  var city = ''
+  var district = ''
+  var addr = ''
+  var type = ''
+  var user_id = ''
 
   // 级联picker
   $('#addr-picker').on('click', function() {
+    $('.err-prompt').remove()
     weui.picker(ChineseDistricts, {
       className: 'custom-classname',
       container: 'body',
       defaultValue: [0,1,1],
       onChange: function (res) {
-        // $('#baby-addr').text(res[0].label + '/' + res[1].label + '/' + res[2].label)
+        province = res[0].label
+        city = res[1].label
+        district = res[2].label
+        $('#province').text(province)
+        $('#city').text(city)
+        $('#district').text(district)
       },
       onConfirm: function (res) {
-        console.log(res)
+        
       },
       id: 'doubleLinePicker'
     });
   })
 
-  
-  // 获取短信验证码 按钮
-  $('.weui-vcode-btn').on('click', function(){
-    $(this).hide()
-    $('.weui-vcode-count-down').css('display', 'inline-block')
-    var timer = setInterval(function() {
-      var count = parseInt($('.weui-vcode-count-down').text(), 10)
-      count --
-      $('.weui-vcode-count-down').text(count)
-      if(count < 0){
-        clearInterval(timer)
-        $('.weui-vcode-count-down').hide()
-        $('.weui-vcode-btn').show()
-        $('.weui-vcode-count-down').text(count_down)
-      }
-    }, 1000);
+  $('#address-info').on('focus', function() {
+    $(this).parents('.weui-cells').find('.err-prompt').remove()
+  })
+  $('#address-info').on('blur', function() {
+    address_info = $.trim($(this).val())
+    if ( address_info.length == 0 ) {
+      ERRPrompt('Address_Info_Empty', '')
+    }
+    if (address_info.length < 6 && address_info.length > 0) {
+      ERRPrompt('Address_Info_Min', '')
+    }
   })
 
   // 提交按钮
   $('#save').on('click', function(){
-    var loading = weui.loading('提交中...', {
-      className: 'save'
-    });
-    setTimeout(function () {
-      loading.hide(function() {
-        console.log('`loading` has been hidden');
-      });
-      weui.toast('提交成功', {
-        duration: 1000,
-        className: 'custom-classname',
-        callback: function(){ console.log('close') }
-      });
-    }, 3000);
+    address_info = $.trim($('#address-info').val())
+    user_id = sessionStorage.getItem('userId')
+    baby_birth = sessionStorage.getItem('baby_birth')
+    baby_name = sessionStorage.getItem('baby_name')
+    type = sessionStorage.getItem('type')
+
+    $('.err-prompt').remove()
+    if(!province || !city || !district) {
+      ERRPrompt('Address_Empty', '')
+    }
+    if ( address_info.length == 0 ) {
+      ERRPrompt('Address_Info_Empty', '')
+    }
+
+    if (province && city && district && (address_info.length != 0)) {
+      var data = {
+        "addr": address_info,
+        "baby_birth": baby_birth,
+        "baby_name": baby_name,
+        "city": city,
+        "district": district,
+        "province": province,
+        "type": type,
+        "user_id": user_id
+      }
+      $.ajax({
+        type: 'POST',
+        url: IP + 'youzan-qp-web/saveUserFamilyInfo',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        success: function(res){
+          if ( res.status == 'success' ) {
+            weui.toast('提交成功', {
+              duration: 1500,
+              className: 'baby-info-success',
+              callback: function(){
+                location.href = '/submitsuccess.html'
+              }
+            });
+          } else {
+            weui.confirm( '提交失败，请重试' )
+          }
+        },
+        error: function(xhr, type){
+          weui.confirm( '网络出错!<br>请重试' )
+        }
+      })
+    }
   })
   
 </script>

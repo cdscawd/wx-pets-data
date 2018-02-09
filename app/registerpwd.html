@@ -52,7 +52,7 @@
     })
 
     $('#password').on('blur', function() {
-      password = $(this).val()
+      password = $.trim($(this).val())
       if ( password.length < min_length ) {
         ERRPrompt('Password_Min', '')
       } else if( password.length > max_length ) {
@@ -61,42 +61,49 @@
     })
 
     $('#passwordR').on('blur', function() {
-      passwordR = $(this).val()
+      passwordR = $.trim($(this).val())
       if (password !== passwordR) {
         ERRPrompt('Password_Differ', '')
       }
     })
- 
+    
+//  18280205147
     // 提交按钮
     $('#save').on('click', function(){
-      username = sessionStorage.getItem('username')
-      var data = {
-        phone: username,
-        pw: passwordR,
-        username: username
-      }
-      $.ajax({
-        type: 'POST',
-        url: IP + 'youzan-qp-web/userRegister',
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        success: function(res){
-          if ( res.status ) {
-            weui.toast('密码设置成功', {
-              duration: 1500,
-              className: 'password-initialization-success',
-              callback: function(){
-                location.href = '/babyinfo.html'
-              }
-            });
-          } else {
-            weui.confirm( ERR_TEXT.Phone_Number_Registar )
-          }
-        },
-        error: function(xhr, type){
-          weui.confirm( '网络出错!<br>请重试' )
+      $('.err-prompt').remove()
+      if (password == '' || passwordR == '') {
+        ERRPrompt('Password_Error', '')
+      } else {
+        username = sessionStorage.getItem('username')
+        var data = {
+          phone: username,
+          pw: passwordR,
+          username: username
         }
-      })
+        $.ajax({
+          type: 'POST',
+          url: IP + 'youzan-qp-web/userRegister',
+          data: JSON.stringify(data),
+          contentType: 'application/json',
+          success: function(res){
+            if ( res.status == 'success') {
+              weui.toast('密码设置成功', {
+                duration: 1500,
+                className: 'password-initialization-success',
+                callback: function(){
+                  sessionStorage.setItem('userId', res.data.userId)
+                  location.href = '/babyinfo.html'
+                }
+              });
+            } else {
+              weui.confirm( ERR_TEXT.Phone_Number_Registar )
+            }
+          },
+          error: function(xhr, type){
+            weui.confirm( '网络出错!<br>请重试' )
+          }
+        })
+      }
     })
    
  </script>

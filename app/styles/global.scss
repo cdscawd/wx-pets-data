@@ -104,6 +104,14 @@ $input_border_color: #fca41d;
     &:nth-child(2) {
       margin-right: 1em;
     }
+    p {
+      font-size: 13px;
+      width: 64px;
+      height: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
     i {
       display: block;
       width: 8px;
@@ -128,7 +136,6 @@ $input_border_color: #fca41d;
   color: red;
   font-size: 14px;
 }
-
 
 
 

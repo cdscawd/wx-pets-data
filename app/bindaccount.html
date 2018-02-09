@@ -9,57 +9,125 @@
   <link rel="stylesheet" href="styles/main.css">
 </head>
 
-<body class="default-bg"> 
+<body class="default-bg">
   <div class="section-box">
     <article class="weui-article">
-      <p>您的巧口萌宠账号尚未绑定手机<br>号，可能存在安全问题，请先<br>进行手机号绑定哦~</p>
+      <p>请填写手机号为您的<br/> 巧口萌宠注册账号</p>
     </article>
 
     <div class="weui-cells weui-cells_form">
-      <div class="weui-cell input-border">
+      <div id="phone-input-box" class="weui-cell input-border">
         <input class="weui-input" id="phone-number" type="number" pattern="[0-9]*" placeholder="请填写手机号">
       </div>
+      <!-- <p class="err-prompt">此账号已被注册，请返回上页重新选择，若忘记密码，可到巧口萌宠App短信验证找回</p>  -->
     </div>
-    
-      <div class="weui-cells weui-cells_form">
-      <div class="weui-cell_vcode">
+
+    <div class="weui-cells weui-cells_form">
+      <div class="weui-cell_vcode" id="phone-code-box">
         <div class="weui-cell input-border input-code">
           <input class="weui-input " id="phone-code" type="number" pattern="[0-9]*" placeholder="请填写验证码">
         </div>
         <div class="weui-cell__ft code-btn">
-          <label class="weui-vcode-btn input-border" for="phone-code">获取验证码</label>
-          <label class="weui-vcode-count-down">60</label>
+          <label id="weui-vcode-btn" class="weui-vcode-btn input-border">获取验证码</label>
+          <label id="count-down" class="weui-vcode-btn weui-vcode-count-down input-border" style="display: none">60</label>
         </div>
       </div>
+      <!-- <p class="err-prompt">请填写正确的验证码</p> -->
     </div>
 
     <div class="button-sp-area pets-btn-area next-btn-area">
       <a href="javascript:;" class="weui-btn weui-btn_primary" id="save">下一步</a>
     </div>
   </div>
-  
+
   <div class="weui-footer">
     <p class="weui-footer__text">Copyright © 2010-2018 Qooco</p>
   </div>
+
 </body>
 <script type="text/javascript" src="./scripts/zepto.min.js"></script>
 <script type="text/javascript" src="./scripts/weui.min.js"></script>
+<script type="text/javascript" src="./scripts/main.js"></script>
+
 <script type="text/javascript">
-  // 获取短信验证码 按钮
-  $('.weui-vcode-btn').on('click', function(){
-    $(this).hide()
-    $('.weui-vcode-count-down').css('display', 'inline-block')
-    var timer = setInterval(function() {
-      var count = parseInt($('.weui-vcode-count-down').text(), 10)
-      count --
-      $('.weui-vcode-count-down').text(count)
-      if(count < 0){
-        clearInterval(timer)
-        $('.weui-vcode-count-down').hide()
-        $('.weui-vcode-btn').show()
-        $('.weui-vcode-count-down').text(count_down)
-      }
-    }, 1000);
+  // http://182.92.222.87:9000/qoocoAPI/common/getSmsCode/${phoneNumber}
+  // 13094804731
+  
+  var COUNT_DOWN = 60
+  var phone_number = ''
+  var smscode = ''
+  
+  // 手机号 获得焦点
+  $('#phone-number').on('focus', function() {
+    $(this).parents('.weui-cells').find('.err-prompt').remove()
   })
+
+  // 验证码 获得焦点
+  $('#phone-code').on('focus', function() {
+    $(this).parents('.weui-cells').find('.err-prompt').remove()
+  })
+
+  // 验证码 失去焦点
+  $('#phone-code').on('blur', function() {
+    var phone_code = $.trim($('#phone-code').val())
+    $(this).parents('.weui-cells').find('.err-prompt').remove()
+    if( phone_code.length == 0 || phone_code.length < 4 ) {
+      ERRPrompt('PHONE_CODE_ERROR', '' )
+    }
+  })
+
+  // 手机号 失去焦点
+  $("#phone-number").on('blur', function(){
+    var blur_phone_number = $(this).val();
+    if ( !isPoneAvailable( blur_phone_number ) ) {
+      ERRPrompt('PHONE_NUMBER_ERROR', blur_phone_number )
+    }
+  });
+
+  // 获取短信验证码 按钮
+  $('#weui-vcode-btn').on('click', function(){
+    phone_number = $('#phone-number').val()
+    if ( isPoneAvailable( phone_number ) ) {
+      $.get('https://open.api.qooco.com/qoocoAPI/common/getSmsCode/' + phone_number, function(res){
+        if( res.success ) {
+          smscode = res.data.smscode
+          $('#weui-vcode-btn').hide()
+          $('#count-down').css('display', 'inline-block')
+          $('#phone-code').focus()
+          var timer = setInterval(function() {
+            var count = parseInt($('#count-down').text(), 10)
+            count --
+            $('#count-down').text(count)
+            if(count <= 0){
+              clearInterval(timer)
+              $('#count-down').hide()
+              $('#weui-vcode-btn').show()
+              $('#count-down').text(COUNT_DOWN)
+            }
+          }, 1000);
+        } else {
+          weui.confirm('无法获取验证码<br>该号码当天获取验证码次数上限');
+        }
+      })
+    }
+  })
+
+  // 提交按钮
+  $('#save').on('click', function(){
+    var phone_code = $.trim($('#phone-code').val())
+    var userId = sessionStorage.getItem('userId')
+    if (phone_code === smscode) {
+      $.post(IP + 'youzan-qp-web/update-user-phone?userId=' + userId + '&phoneNumber=' + phone_number, function(res) {
+        console.log(res)
+        // Gatsby.曹影.RD 123456
+        if ( res.status === 'success' ) {
+          location.href = '/babyinfo.html'
+        } else {
+          ERRPrompt('Account_Error', '')
+        }
+      })
+    }
+  })
+  
 </script>
 </html>
