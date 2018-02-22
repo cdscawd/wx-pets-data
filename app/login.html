@@ -76,23 +76,27 @@
       }
 
       $.post(IP + 'youzan-qp-web/validate-account?username=' + account_number + '&password=' + password, function(res) {
-        console.log(res)
-        // Gatsby.曹影.RD 123456
         if ( res.status === 'success' ) {
-          console.log(res)
-          sessionStorage.setItem('userId', res.data.userid)
-          weui.toast('登陆成功', {
-            duration: 1500,
-            className: 'phone-number-success',
-            callback: function(){
-              // SIMON.陈思铭.RD  redhat
-              if (res.data.phone === '') {
-                location.href = '/bindaccount.html'
-              } else {
-                location.href = '/babyinfo.html'
-              }
+          var userid = res.data.userid
+          sessionStorage.setItem('userId', userid)
+          $.get(IP + 'getUserFamilyInfo/' + userid, function(response) {
+            if ( response.status === 'success' ) {
+              weui.toast('登陆成功', {
+                duration: 1500,
+                className: 'phone-number-success',
+                callback: function(){
+                  if ( response.data.baby_name != '' || response.data.baby_birth != '' ) {
+                    location.href = '/activation.html'
+                  }
+                  if (res.data.phone === '') {
+                    location.href = '/bindaccount.html'
+                  } else {
+                    location.href = '/babyinfo.html'
+                  }
+                }
+              });
             }
-          });
+          })
         } else {
           ERRPrompt('Account_Error', '')
         }

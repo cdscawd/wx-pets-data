@@ -51,7 +51,6 @@
 
 <script type="text/javascript">
   // http://182.92.222.87:9000/qoocoAPI/common/getSmsCode/${phoneNumber}
-  // 13094804731
   
   var COUNT_DOWN = 60
   var phone_number = ''
@@ -119,7 +118,6 @@
     if (phone_code === smscode) {
       $.post(IP + 'youzan-qp-web/update-user-phone?userId=' + userId + '&phoneNumber=' + phone_number, function(res) {
         console.log(res)
-        // Gatsby.曹影.RD 123456
         if ( res.status === 'success' ) {
           location.href = '/babyinfo.html'
         } else {

@@ -1,5 +1,6 @@
 
-var IP = 'http://192.168.0.107:9922/'
+// var IP = 'http://192.168.0.107:9922/'
+var IP = 'https://open.api.qooco.com/youzan-web-api/'
 
 var ERR_TEXT = {
 	Phone_Number_Error: '填写正确的手机号',
